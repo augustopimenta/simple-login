@@ -1,0 +1,21 @@
+{
+  "name": "Simple Login",
+  "description": "Faça login rapidamente",
+  "version": "0.1",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_title": "Simple Login",
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "css": [],
+      "js": ["static/js/main.2a10675b.js"]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ]
+}
