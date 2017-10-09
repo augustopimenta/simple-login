@@ -1,12 +1,15 @@
-/*global chrome*/
-
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import axios from 'axios';
 
 import Logo from './Logo';
 import MainButton from './MainButton';
+import Alert from './Alert';
+
+import {getActiveTab, changeTabUrl, closeExtension} from '../services/extension';
+import {requestLogin} from '../services/request';
+
 import * as loading from '../actions/loading';
+import * as alert from '../actions/alert';
 
 import './App.css';
 
@@ -15,39 +18,32 @@ class App extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        const form = e.target;
+        const { dispatch } = this.props;
 
-        const data = {
-            '_token': '',
-            'isTablet': 0,
-            'impressora': 0,
-            'usuarioAD': '99705636',
-            'numeroUsuario': e.target.id.value,
-            'senhaAD': '',
-            'cpf': '024.252.377-39',
-            'nascimento': '13/08/1976'
-        };
+        dispatch(loading.show());
+        dispatch(alert.setMessage(alert.TYPE_INFO, 'Autenticando...'));
 
-        this.props.showLoading();
-
-        axios.post('http://portalclick-aceite.la.interbrew.net/login', data)
+        requestLogin(e.target.id.value)
             .then(response => {
-                chrome.tabs.query({active: true}, tab => {
-                    chrome.tabs.update(tab[0].id, {url: response.request.responseURL});
-                    this.props.hideLoading();
-                    form.reset();
+                getActiveTab(tab => {
+                    changeTabUrl(tab.id, response.request.responseURL);
+                    dispatch(loading.hide());
+                    dispatch(alert.clearMessage());
+                    closeExtension();
                 });
             })
             .catch(() => {
-                this.props.hideLoading();
+                dispatch(loading.hide());
+                dispatch(alert.setDelayedMessage(5000, alert.TYPE_ERROR, 'Ocorreu um erro'));
             });
     };
 
     render() {
-        const { loading } = this.props;
+        const { loading, alert } = this.props;
 
         return (
             <div className="App">
+                <Alert type={alert.type} message={alert.message} />
                 <Logo />
                 <form className="App__form" onSubmit={this.onSubmit}>
                     <input className="App__input" placeholder="Número" type="text" name="id" autoFocus={true} disabled={loading} />
@@ -59,16 +55,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.loading.enable
+    loading: state.loading.enable,
+    alert: state.alert,
 });
 
-const mapDispatchToProps = dispatch => ({
-    showLoading: () => {
-        dispatch(loading.show());
-    },
-    hideLoading: () => {
-        dispatch(loading.hide());
-    }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
