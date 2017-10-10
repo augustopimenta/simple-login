@@ -69,6 +69,19 @@ measureFileSizesBeforeBuild(paths.appBuild)
         );
       } else {
         console.log(chalk.green('Compiled successfully.\n'));
+
+        const assets = JSON.parse(fs.readFileSync(paths.appBuild + '/asset-manifest.json'));
+        let manifest = JSON.parse(fs.readFileSync(paths.appBuild + '/manifest.json'));
+
+        manifest.content_scripts = [
+            {
+                "matches": ["*://*/*"],
+                "css": [assets['main.css']],
+                "js": [assets['main.js']]
+            }
+        ];
+
+        fs.writeFileSync(paths.appBuild + '/manifest.json', JSON.stringify(manifest), 'utf8');
       }
 
       console.log('File sizes after gzip:\n');
