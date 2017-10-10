@@ -7,7 +7,7 @@ const forExtension = callback => {
 
 export const getActiveTab = callback => {
    forExtension(chrome => {
-       chrome.tabs.query({active: true}, tab => {
+       chrome.tabs.query({active: true, currentWindow: true}, tab => {
            callback(tab[0]);
        });
    });
