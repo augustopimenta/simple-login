@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Logo.css';
+import './Logo.scss';
 
 const Logo = () => <div className="Logo">Simple Login</div>;
 

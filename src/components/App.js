@@ -11,7 +11,7 @@ import {requestLogin} from '../services/request';
 import * as loading from '../actions/loading';
 import * as alert from '../actions/alert';
 
-import './App.css';
+import './App.scss';
 
 class App extends Component {
 

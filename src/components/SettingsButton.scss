@@ -1,0 +1,34 @@
+.MainButton {
+    border: none;
+    background-color: #DDD;
+    padding: 5px 0;
+    color: #FFF;
+    cursor: pointer;
+    height: 43px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:active {
+        transform: scale(0.9, 0.9);
+    }
+
+    &[disabled] {
+        background-color: rgba(227, 152, 69, 0.56);
+    }
+
+    &--primary {
+        background-color: #E87E04;
+    }
+
+    &__spinner {
+        width: 30px;
+        display: inline-block;
+        margin-right: 5px;
+    }
+}

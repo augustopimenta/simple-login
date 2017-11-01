@@ -1,5 +1,8 @@
 const initialState = {
-    list: []
+    current: null,
+    list: [
+        { domain: "", users: [] }
+    ]
 };
 
 export default (state = initialState, action) => {

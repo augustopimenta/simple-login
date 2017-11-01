@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './Alert.css';
+import './Alert.scss';
 
 const Alert = ({type, message}) => (
     <div className={classNames('Alert', {[`Alert--${type}`]: type, 'Alert--visible': message})}>
@@ -11,7 +11,6 @@ const Alert = ({type, message}) => (
 );
 
 Alert.propTypes = {
-    type: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired
 };
 
