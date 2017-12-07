@@ -1,5 +1,6 @@
 const {resolve} = require('path');
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 
@@ -62,7 +63,7 @@ module.exports = {
     output: {
         filename: 'js/[name].[chunkhash].js',
         path: resolve(__dirname, 'build'),
-        pathinfo: true,
+        pathinfo: true
     },
     context: resolve(__dirname, 'src'),
     devtool: 'source-map',
@@ -103,10 +104,22 @@ module.exports = {
                     },
                     'sass-loader'
                 ]
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                use: [
+                  {
+                    loader: 'url-loader',
+                    options: {
+                        name: '[path][name].[ext]'
+                    }  
+                  }
+                ]
             }
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(['build']),
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': '"development"'
