@@ -1,6 +1,10 @@
 .App {
     padding: 10px;
 
+    &__header {
+        display: flex;
+    }
+
     &__form {
         display: flex;
         flex-direction: column;

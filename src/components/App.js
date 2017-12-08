@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import Logo from './Logo';
 import MainButton from './MainButton';
+import SettingsButton from './SettingsButton';
 import Alert from './Alert';
 
 import {getActiveTab, changeTabUrl, closeExtension} from '../services/extension';
@@ -38,13 +39,20 @@ class App extends Component {
             });
     };
 
+    goToSettings = e => {
+        console.log("Settings!");
+    };
+
     render() {
         const { loading, alert } = this.props;
 
         return (
             <div className="App">
                 <Alert type={alert.type} message={alert.message} />
-                <Logo />
+                <header className="App__header">
+                    <Logo />
+                    <SettingsButton onClick={this.goToSettings} />
+                </header>
                 <form className="App__form" onSubmit={this.onSubmit}>
                     <input className="App__input" placeholder="Número" type="text" name="id" autoFocus={true} disabled={loading} />
                     <MainButton type="submit" loading={loading}>Logar</MainButton>

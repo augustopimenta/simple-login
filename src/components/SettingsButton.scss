@@ -1,11 +1,7 @@
-.MainButton {
+.SettingsButton {
+    padding: 0;
     border: none;
-    background-color: #DDD;
-    padding: 5px 0;
-    color: #FFF;
     cursor: pointer;
-    height: 43px;
-    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,20 +11,10 @@
     }
 
     &:active {
-        transform: scale(0.9, 0.9);
+        transform: scale(0.7, 0.7);
     }
 
-    &[disabled] {
-        background-color: rgba(227, 152, 69, 0.56);
-    }
-
-    &--primary {
-        background-color: #E87E04;
-    }
-
-    &__spinner {
-        width: 30px;
-        display: inline-block;
-        margin-right: 5px;
+    &__icon {
+        width: 18px;
     }
 }

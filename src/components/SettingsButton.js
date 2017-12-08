@@ -1,19 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import './MainButton.scss';
+import './SettingsButton.scss';
 
-const MainButton = ({type, children, loading}) => (
-    <button className="MainButton MainButton--primary" type={type} disabled={loading}>
-        {loading && <img className="MainButton__spinner" src="spinner.svg" alt="spinner" />}
-        <span>{children}</span>
+const SettingsButton = ({onClick}) => (
+    <button className="SettingsButton" type="button" onClick={onClick}>
+        <img className="SettingsButton__icon" src={ require('../assets/settings.svg') } title="Configurações" alt="settings" />
     </button>
 );
 
-MainButton.propTypes = {
-    type: PropTypes.string.isRequired,
-    children: PropTypes.node,
-    loading: PropTypes.bool.isRequired
-};
-
-export default MainButton;
+export default SettingsButton;
