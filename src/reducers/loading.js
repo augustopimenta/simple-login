@@ -1,4 +1,4 @@
-import {LOADING_SHOW, LOADING_HIDE} from "../actions/loading";
+import { LOADING_SHOW, LOADING_HIDE } from "../actions/loading";
 
 const initialState = {
     enable: false
