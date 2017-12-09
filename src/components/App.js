@@ -37,7 +37,7 @@ class App extends Component {
             })
             .catch(() => {
                 dispatch(loading.hide());
-                dispatch(alert.setDelayedMessage(5000, alert.TYPE_ERROR, 'Ocorreu um erro'));
+                dispatch(alert.setDelayedMessage(alert.DELAY_FAST, alert.TYPE_ERROR, 'Ocorreu um erro'));
             });
     };
 
@@ -51,7 +51,7 @@ class App extends Component {
         setTimeout(() => {
             dispatch(loading.hide());
             this.goToMain();
-            dispatch(alert.setDelayedMessage(5000, alert.TYPE_SUCCESS, 'Configurações salvas!'));            
+            dispatch(alert.setDelayedMessage(alert.DELAY_MEDIUM, alert.TYPE_SUCCESS, 'Configurações salvas!'));            
         }, 3000);
     };
 
