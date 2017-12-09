@@ -1,7 +1,6 @@
 .MainButton {
     border: none;
-    background-color: #DDD;
-    color: #FFF;
+    background-color: transparent;
     cursor: pointer;
     height: 36px;
     font-size: 14px;
@@ -18,11 +17,12 @@
     }
 
     &[disabled] {
-        background-color: rgba(227, 152, 69, 0.56);
+        opacity: 0.56;
     }
 
     &--primary {
         background-color: #E87E04;
+        color: #FFF;
     }
 
     &__spinner {

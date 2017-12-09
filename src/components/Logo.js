@@ -1,7 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './Logo.scss';
 
-const Logo = () => <div className="Logo">Simple Login</div>;
+const Logo = ({title}) => (
+    <div className="Logo">
+        Simple Login {title && <strong> / {title}</strong>}
+    </div>
+);
+
+Logo.propTypes = {
+    title: PropTypes.string,
+};
 
 export default Logo;

@@ -1,0 +1,30 @@
+.SettingsForm {
+    width: 500px;
+
+    &__input {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #888;
+        border-bottom: 2px solid #888;
+        width: 100%;
+        resize: vertical;
+    }
+
+    &__input:focus {
+        outline: none;
+        border-color: #E87E04;
+        border-bottom-width: 3px;
+        margin-bottom: 14px;
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 15px;
+    }
+
+    .MainButton--primary {
+        width: 150px;
+        margin-left: 15px;
+    }
+}

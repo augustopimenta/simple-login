@@ -1,4 +1,4 @@
-const {resolve} = require('path');
+const { resolve } = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -109,7 +109,7 @@ module.exports = {
                 test: /\.(png|jpg|gif|svg)$/,
                 use: [
                   {
-                    loader: 'url-loader',
+                    loader: 'file-loader',
                     options: {
                         name: '[path][name].[ext]'
                     }  
