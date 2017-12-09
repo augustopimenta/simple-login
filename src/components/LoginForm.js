@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MainButton from './MainButton';
+import Button from './Button';
 
 import './LoginForm.scss';
 
 const LoginForm = ({onSubmit, loading}) => (
 	<form className="LoginForm" onSubmit={onSubmit}>
         <input className="LoginForm__input" placeholder="Número" type="text" name="id" autoFocus={true} disabled={loading} />
-        <MainButton type="submit" loading={loading} disabled={loading}>Logar</MainButton>
+        <Button type="submit" loading={loading} disabled={loading}>Logar</Button>
     </form>
 );
 

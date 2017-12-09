@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MainButton from './MainButton';
+import Button from './Button';
 
 import './SettingsForm.scss';
 
@@ -14,8 +14,8 @@ const SettingsForm = ({onSubmit, loading, onBack}) => (
         <textarea id="params" className="SettingsForm__input" placeholder={'{\n  id: "#ID#",\n  tipo: 1\n}'} rows="4" name="params" disabled={loading} />
 
         <div className="SettingsForm__buttons">
-            <MainButton type="button" primary={false} disabled={loading} onClick={onBack}>Voltar</MainButton>
-            <MainButton type="submit" loading={loading} disabled={loading} >Salvar</MainButton>            
+            <Button type="button" primary={false} disabled={loading} onClick={onBack}>Voltar</Button>
+            <Button type="submit" loading={loading} disabled={loading} >Salvar</Button>            
         </div>
     </form>
 );
