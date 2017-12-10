@@ -13,6 +13,7 @@ import { requestLogin } from '../services/request';
 
 import * as loading from '../actions/loading';
 import * as alert from '../actions/alert';
+import * as settings from '../actions/settings';
 
 import './App.scss';
 
@@ -50,7 +51,7 @@ class App extends Component {
     };
 
     setError = error => {
-        this.setState((prevState, props) => {
+        this.setState(prevState => {
             return {errors: { ...prevState.errors, ...error }};
         });
     };
@@ -110,7 +111,8 @@ class App extends Component {
 
         if (urlValid && paramsValid) {
             this.goToMain();            
-            dispatch(loading.hide());            
+            dispatch(loading.hide());
+            dispatch(settings.setData({ url: e.target.url.value, params: JSON.parse(e.target.params.value) }));            
             dispatch(alert.setDelayedMessage(alert.DELAY_FAST, alert.TYPE_SUCCESS, 'Configurações salvas!')); 
         } else {
             dispatch(loading.hide());            
@@ -159,9 +161,9 @@ class App extends Component {
                     />
                     <Redirect to="/" />
                 </Switch>
-                
+
                 <Route exact path="/" render={() => <LoginForm loading={loading} onSubmit={this.authenticate} />} />
-                <Route exact path="/settings" render={() => <SettingsForm data={{form: settings, errors: this.state.errors}} loading={loading} onBack={this.goToMain} onSubmit={this.storeSettings} />} />    
+                <Route exact path="/settings" render={() => <SettingsForm data={{form: settings, errors: this.state.errors}} loading={loading} onBack={this.goToMain} onSubmit={this.storeSettings} />} />   
             </div>
         );
     }
