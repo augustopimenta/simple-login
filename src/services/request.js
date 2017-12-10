@@ -1,6 +1,10 @@
 import axios from 'axios';
-import * as env from '../env';
 
-export const requestLogin = id => {
-    return axios.post(env.LOGIN_URL, { ...env.LOGIN_PARAMS, numeroUsuario: id });
+export const requestLogin = (url, params, id) => {
+    const data = Object.keys(params).reduce((obj, key) => {
+        obj[key] = /#ID#/.test(params[key]) ? params[key].replace('#ID#', id) : params[key];
+        return obj;
+    }, {});
+
+    return axios.post(url, data);
 };

@@ -1,7 +1,7 @@
 import { SETTINGS_SET_DATA } from "../actions/settings";
 
 const initialState = {
-    url: '',
+    url: null,
     params: null
 };
 

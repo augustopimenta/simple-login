@@ -30,12 +30,18 @@ class App extends Component {
     authenticate = e => {
         e.preventDefault();
 
-        const { dispatch } = this.props;
+        const { dispatch, settings } = this.props;
+
+        if (!settings.url) {
+            dispatch(alert.setDelayedMessage(alert.DELAY_MEDIUM, alert.TYPE_ERROR, 'Nenhuma configuração foi encontrada'));
+            this.goToSettings();
+            return;
+        }
 
         dispatch(loading.show());
         dispatch(alert.setMessage(alert.TYPE_INFO, 'Autenticando...'));
 
-        requestLogin(e.target.id.value)
+        requestLogin(settings.url, settings.params, e.target.id.value)
             .then(response => {
                 getActiveTab(tab => {
                     changeTabUrl(tab.id, response.request.responseURL);
