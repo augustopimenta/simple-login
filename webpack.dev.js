@@ -1,71 +1,11 @@
-const { resolve } = require('path');
+const common = require('./webpack.common.js');
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const merge = require('webpack-merge');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const fs = require('fs');
+const ChromeExtManifestPlugin = require('./ChromeExtManifestPlugin.js');
 
-function ChromeExtManifestPlugin() {
-
-}
-
-ChromeExtManifestPlugin.prototype.apply = function(compiler) {
-    compiler.plugin('emit', (compilation, callback) => {
-        const stats = compilation.getStats().toJson();
-
-        const assets = stats.assets.reduce((files, stat) => {
-            if (/\.js$/.test(stat.name)) {
-                files.js.push(stat.name);
-            }
-            if (/\.css$/.test(stat.name)) {
-                files.css.push(stat.name);
-            }
-            return files;
-        }, {css: [], js: []});
-
-        let manifest = JSON.parse(fs.readFileSync('./src/manifest.json'));
-
-        manifest.background.scripts = assets.js;
-
-        manifest.content_scripts = [
-            {
-                "matches": ["*://*/*"],
-                "css": assets.css,
-                "js": ['popup.js']
-            }
-        ];
-
-        const manifestData = JSON.stringify(manifest, null, 4);
-
-        compilation.assets['popup.js'] = {
-            source: function() {
-                return '';
-            },
-            size: function() {
-                return 0;
-            }
-        };
-
-        compilation.assets['manifest.json'] = {
-            source: function() {
-                return manifestData;
-            },
-            size: function() {
-                return manifestData.length;
-            }
-        };
-
-        callback();
-    });
-};
-
-module.exports = {
-    entry: './index.js',
-    output: {
-        filename: 'js/[name].[chunkhash].js',
-        path: resolve(__dirname, 'build'),
-        pathinfo: true
-    },
-    context: resolve(__dirname, 'src'),
+module.exports = merge(common, {
     devtool: 'source-map',
     bail: false,
     module: {
@@ -76,7 +16,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: [['react-app']]
+                        presets: [['react-app']],
                     }
                 },
             },
@@ -84,7 +24,12 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     'style-loader',
-                    'css-loader',
+                    { 
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                        }
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
@@ -118,16 +63,16 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new CleanWebpackPlugin(['build']),
+    plugins: [      
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': '"development"'
             }
         }),
+        new CleanWebpackPlugin(['build']),
         new HtmlWebpackPlugin({
             template: './index.html'
         }),
         new ChromeExtManifestPlugin()
     ]
-};
+});
