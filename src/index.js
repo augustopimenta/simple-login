@@ -9,6 +9,9 @@ import { createStore, applyMiddleware } from 'redux';
 import App from './components/App';
 import reducers from './reducers';
 
+import 'core-js/es6/map';
+import 'core-js/es6/set';
+
 import './index.scss';
 
 const store = createStore(reducers, applyMiddleware(thunk, logger));
@@ -16,7 +19,7 @@ const store = createStore(reducers, applyMiddleware(thunk, logger));
 ReactDOM.render(
     <Provider store={store}>
     	<Router>
-        	<App />    		
+        	<App />
     	</Router>
     </Provider>,
     document.getElementById('root')

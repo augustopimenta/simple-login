@@ -1,15 +1,21 @@
 import React from 'react';
 import Logo from './Logo';
 
-it('renders without crashing', () => {
-    const wrapper = shallow(<Logo />);
+describe('<Logo />', () => {
+    let wrapper;
 
-    expect(wrapper).toBeTruthy();
-});
+    beforeEach(() => {
+        wrapper = shallow(<Logo />);
+    });
 
-it('display title after logo', () => {
-    const title = 'Configs';
-    const wrapper = shallow(<Logo title={title} />);
+    it('renders without crashing', () => {
+        expect(wrapper).toBeTruthy();
+    });
 
-    expect(wrapper.text()).toContain(title);
+    it('display title after logo', () => {
+        const title = 'Configs';
+        wrapper.setProps({ title });
+    
+        expect(wrapper.text()).toContain(title);
+    });
 });

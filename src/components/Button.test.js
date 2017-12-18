@@ -1,27 +1,38 @@
 import React from 'react';
 import Button from './Button';
 
-it('renders without crashing', () => {
-    const wrapper = shallow(<Button type="button">Ok</Button>);
+describe('<Button />', () => {
+    let wrapper;
 
-    expect(wrapper).toBeTruthy();
-});
+    beforeEach(() => {
+        wrapper = shallow(<Button type="button">Ok</Button>);
+    });
 
-it('renders children', () => {
-    const children = 'Go back';
-    const wrapper = shallow(<Button type="button">{children}</Button>);
-
-    expect(wrapper.text()).toBe(children);
-});
-
-it('shows spinner when loading', () => {
-    const wrapper = shallow(<Button loading type="button">Ok</Button>);
+    it('renders without crashing', () => {
+        expect(wrapper).toBeTruthy();
+    });
     
-    expect(wrapper.find('.Button__spinner').exists()).toBe(true);
-});
+    it('renders children', () => {
+        const children = 'Go back';
+        
+        wrapper.setProps({ children });
+    
+        expect(wrapper.text()).toBe(children);
+    });
 
-it('can be disabled', () => {
-    const wrapper = shallow(<Button disabled type="button">Ok</Button>);
+    it('shows spinner when loading', () => {
+        wrapper.setProps({ loading: true });
+    
+        expect(wrapper.find('.Button__spinner').exists()).toBe(true);
+    });
 
-    expect(wrapper.find('.Button[disabled]').exists()).toBe(true);    
-});
+    it('can be disabled', () => {
+        wrapper.setProps({ disabled: true });
+    
+        expect(wrapper.is('[disabled]')).toBe(true);
+    });
+})
+
+
+
+

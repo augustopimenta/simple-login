@@ -181,4 +181,4 @@ const mapStateToProps = state => ({
     settings: state.settings
 });
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps, null, null, {withRef: true})(App));

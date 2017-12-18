@@ -11,7 +11,7 @@ const Alert = ({type, message}) => (
 );
 
 Alert.propTypes = {
-    type: PropTypes.string.isRequired,
+    type: PropTypes.string,
     message: PropTypes.string.isRequired
 };
 

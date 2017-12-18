@@ -1,22 +1,27 @@
 import React from 'react';
 import Alert from './Alert';
 
-it('renders without crashing', () => {
-    const wrapper = shallow(<Alert type="info" message="" />);
+describe('<Alert />', () => {
+    let wrapper;
+
+    beforeEach(() => {
+        wrapper = shallow(<Alert type="info" message="" />);
+    });
+
+    it('renders without crashing', () => { 
+        expect(wrapper).toBeTruthy();
+    });
+
+    it('displays message of prop', () => {
+        const message = 'Custom message';
+        
+        wrapper.setProps({ message });
     
-    expect(wrapper).toBeTruthy();
-});
+        expect(wrapper.text()).toBe(message);
+        expect(wrapper.find('.Alert--visible').exists()).toBe(true);
+    });
 
-it('displays message of prop', () => {
-    const message = 'Custom message';
-    const wrapper = shallow(<Alert type="info" message={message} />);
-
-    expect(wrapper.text()).toBe(message);
-    expect(wrapper.find('.Alert--visible').exists()).toBe(true);
-});
-
-it('stays hidden with an empty message', () => {
-    const wrapper = shallow(<Alert type="info" message="" />);
-
-    expect(wrapper.find('.Alert--visible').exists()).toBe(false);
+    it('stays hidden with an empty message', () => {
+        expect(wrapper.find('.Alert--visible').exists()).toBe(false);
+    });
 });
