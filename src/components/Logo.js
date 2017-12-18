@@ -5,7 +5,7 @@ import './Logo.scss';
 
 const Logo = ({title}) => (
     <div className="Logo">
-        Simple Login {title && <strong> / {title}</strong>}
+        Simple Login {title && <strong>/ {title}</strong>}
     </div>
 );
 
