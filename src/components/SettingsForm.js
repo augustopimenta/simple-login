@@ -34,7 +34,7 @@ const SettingsForm = ({data, onSubmit, loading, onBack}) => (
 
         <div className="SettingsForm__buttons">
             <Button type="button" primary={false} disabled={loading} onClick={onBack}>Voltar</Button>
-            <Button type="submit" loading={loading} disabled={loading} >Salvar</Button>            
+            <Button type="submit" loading={loading} disabled={loading}>Salvar</Button>            
         </div>
     </form>
 );

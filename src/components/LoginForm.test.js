@@ -34,7 +34,3 @@ describe('<LoginForm />', () => {
         expect(input.value).toBe(value);
     });
 })
-
-
-
-
