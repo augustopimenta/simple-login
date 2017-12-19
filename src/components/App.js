@@ -27,35 +27,6 @@ class App extends Component {
         };
     }
 
-    authenticate = e => {
-        e.preventDefault();
-
-        const { dispatch, settings } = this.props;
-
-        if (!settings.url) {
-            dispatch(alert.setDelayedMessage(alert.DELAY_MEDIUM, alert.TYPE_ERROR, 'Nenhuma configuração foi encontrada'));
-            this.goToSettings();
-            return;
-        }
-
-        dispatch(loading.show());
-        dispatch(alert.setMessage(alert.TYPE_INFO, 'Autenticando...'));
-
-        requestLogin(settings.url, settings.params, e.target.id.value)
-            .then(response => {
-                getActiveTab(tab => {
-                    changeTabUrl(tab.id, response.request.responseURL);
-                    dispatch(loading.hide());
-                    dispatch(alert.clearMessage());
-                    closeExtension();
-                });
-            })
-            .catch(() => {
-                dispatch(loading.hide());
-                dispatch(alert.setDelayedMessage(alert.DELAY_FAST, alert.TYPE_ERROR, 'Ocorreu um erro'));
-            });
-    };
-
     setError = error => {
         this.setState(prevState => {
             return {errors: { ...prevState.errors, ...error }};
@@ -168,7 +139,7 @@ class App extends Component {
                     <Redirect to="/" />
                 </Switch>
 
-                <Route exact path="/" render={() => <LoginForm loading={loading} onSubmit={this.authenticate} />} />
+                <Route exact path="/" component={LoginForm} />
                 <Route exact path="/settings" render={() => <SettingsForm data={{form: settings, errors: this.state.errors}} loading={loading} onBack={this.goToMain} onSubmit={this.storeSettings} />} />   
             </div>
         );
