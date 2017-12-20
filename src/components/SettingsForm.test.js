@@ -1,61 +1,78 @@
 import React from 'react';
-import SettingsForm from './SettingsForm';
-import Button from './Button';
 import sinon from 'sinon';
 
+import { MemoryRouter as Router, withRouter } from 'react-router-dom';
+
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store'
+import thunk from 'redux-thunk';
+
+import SettingsForm from './SettingsForm';
+import Button from './Button';
+
 describe('<SettingsForm />', () => {
-    let wrapper;
-    let onSubmitForm;
-    let onBack;
-    const data = {
-        form: { url: null, params: null },
-        errors: { url: null, params: null }
+    let comp;
+    const mockStore = configureStore([thunk]);
+    
+    const createStoreAndMount = (update = {}) => {
+        let initialStore = {
+            alert: { type: null, message: '' }, 
+            loading: { enabled: false }, 
+            settings: { url: null, params: null } 
+        };
+
+        const store = mockStore({ ...initialStore, ...update });
+        
+        return mount(
+            <Provider store={store}>
+                <Router>
+                    <SettingsForm wrappedComponentRef={ref => comp = ref} />
+                </Router>
+            </Provider>
+        );
     };
 
-    beforeEach(() => {
-        onSubmitForm = sinon.spy();
-        onBack = jest.fn();
-
-        wrapper = shallow(<SettingsForm onSubmit={onSubmitForm} data={data} onBack={onBack} loading={false} />);
-    });
-
     it('renders without crashing', () => {
+        const wrapper = createStoreAndMount();
+
         expect(wrapper).toBeTruthy();
     });
     
     it('can be disabled when is loading', () => {
-        wrapper.setProps({ loading: true })
+        const wrapper = createStoreAndMount({ loading: { enabled: true }});
 
         expect(wrapper.find('.SettingsForm__input[disabled]').length).toBe(2);
     });
 
-    it('calls submit event', () => {
-        const url = 'http://test.com/login';
-        const params = '{"id": "#ID#", "role": 2}';
+    it('stores new settings', () => {
+        const wrapper = createStoreAndMount({ settings: { url: 'http://test.com/login', params: { id: '#ID#', role: 2 }} })
         
-        const wrapper = mount(<SettingsForm onSubmit={onSubmitForm} data={data} onBack={onBack} loading={false} />);
-        wrapper.find('input').instance().value = url;
-        wrapper.find('textarea').instance().value = params;
+        const settingsForm = comp.getWrappedInstance();
+
+        const storeSettingsSpy = sinon.spy(settingsForm, 'storeSettings');
+        const goToMainSpy = sinon.spy(settingsForm, 'goToMain');
+           
         wrapper.simulate('submit');
 
-        const form = onSubmitForm.getCall(0).args[0].target;
-
-        expect(onSubmitForm.calledOnce).toBe(true);
-        expect(form.elements.url.value).toBe(url);
-        expect(form.elements.params.value).toBe(params);
+        expect(storeSettingsSpy.calledOnce).toBe(true);
+        expect(goToMainSpy.calledOnce).toBe(true);
     });
 
     it('calls back event', () => {
+        const wrapper = createStoreAndMount();
+        const settingsForm = comp.getWrappedInstance();
+        const goToMainSpy = sinon.spy(settingsForm, 'goToMain');
+
         wrapper.find(Button).at(0).simulate('click');
 
-        expect(onBack).toBeCalled();
+        expect(goToMainSpy.calledOnce).toBe(true);
     });
 
     it('displays form filled with data prop', () => {
         const url = 'http://test.com/login';
         const params = {id: '#ID#', role: 2};
 
-        const wrapper = mount(<SettingsForm onSubmit={onSubmitForm} data={{ ...data, form: { url, params }}} onBack={onBack} loading={false} />);
+        const wrapper = createStoreAndMount({ settings: { url, params }});
 
         const urlInput = wrapper.find('input').instance();
         const paramsTextarea = wrapper.find('textarea').instance();
@@ -64,10 +81,11 @@ describe('<SettingsForm />', () => {
         expect(paramsTextarea.value).toBe(JSON.stringify(params, null, 4));
     });
 
-    it('displays form errors', () => {
-        const error = 'Campo Obrigatório';
-        wrapper.setProps({ data: { ...data, errors: { url: error, params: error }}});
+    it('validates form', () => {
+        const wrapper = createStoreAndMount();
 
-        expect(wrapper.find('.SettingsForm__error').map(e => e.text())).toEqual([error, error]);
+        wrapper.simulate('submit');
+
+        expect(wrapper.find('.SettingsForm__error').length).toBe(2);
     });
 })

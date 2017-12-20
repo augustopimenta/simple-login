@@ -13,7 +13,6 @@ import LoginForm from './LoginForm';
 
 describe('<LoginForm />', () => {
     let comp;
-
     const mockStore = configureStore([thunk]);
 
     const createStoreAndMount = (update = {}) => {
