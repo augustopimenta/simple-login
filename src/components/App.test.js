@@ -1,44 +1,55 @@
 import React from 'react';
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store'
 
-import { App } from './App';
+import App from './App';
 
 describe('<App />', () => {
-    let wrapper;
-    let app;
-
-    beforeEach(() => {
-        const props = {
-            alert: { type: null, message: "" }
+    
+    const mountWithRedux = (state = {}, routerProps = {}) => {
+        const defaultStore = {
+            alert: { type: null, message: '' }, 
+            loading: { enabled: false }, 
+            settings: { url: null, params: null },
+            ...state
         };
 
-        const AppWithRouter = withRouter(App);
-
-        wrapper = shallow(
-            <Router>
-                <AppWithRouter wrappedComponentRef={ref => app = ref} {...props} />
-            </Router>
+        const store = configureStore([thunk])(defaultStore);
+        
+        let component;
+        const wrapper = mount(
+            <Provider store={store}>
+                <Router {...routerProps}>
+                    <App wrappedComponentRef={ref => component = ref.getWrappedInstance()} />
+                </Router>
+            </Provider>
         );
-    });
+
+        return { wrapper, component };
+    };
 
     it('renders without crashing', () => {
-        console.log(wrapper.html());
+        const { wrapper } = mountWithRedux();
         expect(wrapper).toBeTruthy();
     });
 
-    // it('renders settings route', () => {
-    //     app.goToSettings();
-    //     // app.getWrappedInstance().goToSettings();
-    //     wrapper.update();
-        
-    //     expect(wrapper.find('.SettingsForm').exists()).toBe(true);
-    // });
+    it('renders settings route', () => {
+        const { wrapper, component } = mountWithRedux();
 
-    // it('renders login route', () => {
-    //     app.getWrappedInstance().goToSettings();
-    //     app.getWrappedInstance().goToMain();
-    //     wrapper.update();
+        component.goToSettings();
+        wrapper.update();
         
-    //     expect(wrapper.find('.LoginForm').exists()).toBe(true);
-    // });
+        expect(wrapper.find('.SettingsForm').exists()).toBe(true);
+    });
+
+    it('renders login route', () => {
+        const { wrapper, component } = mountWithRedux({}, {initialEntries: ['/settings'] });
+
+        component.goToMain();
+        wrapper.update();
+        
+        expect(wrapper.find('.LoginForm').exists()).toBe(true);
+    });
 });
