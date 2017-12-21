@@ -7,6 +7,8 @@ import * as loading from '../actions/loading';
 import * as alert from '../actions/alert';
 import * as settings from '../actions/settings';
 
+import { saveData } from '../services/persist';
+
 import Button from './Button';
 
 import './SettingsForm.scss';
@@ -84,8 +86,11 @@ class SettingsForm extends Component {
         if (urlValid && paramsValid) {
             this.goToMain();            
             dispatch(loading.hide());
-            dispatch(settings.setData({ url: elements.url.value, params: JSON.parse(elements.params.value) }));            
+            const data = { url: elements.url.value, params: JSON.parse(elements.params.value) };
+            dispatch(settings.setData(data));
             dispatch(alert.setDelayedMessage(alert.DELAY_FAST, alert.TYPE_SUCCESS, 'Configurações salvas!')); 
+            
+            saveData({ settings: data });
         } else {
             dispatch(loading.hide());            
             dispatch(alert.setDelayedMessage(alert.DELAY_MEDIUM, alert.TYPE_ERROR, 'Corrija os erros abaixo antes de continuar'));                                        

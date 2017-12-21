@@ -9,7 +9,7 @@ describe('Alert reducer', () => {
 
         const state = reducer(undefined, alert.setMessage(type, message));
 
-        expect(state).toEqual({ type, message});
+        expect(state).toEqual({ type, message });
     });
 
     it('handle ALERT_CLEAR_MESSAGE', () => {
