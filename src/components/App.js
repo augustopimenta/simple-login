@@ -61,8 +61,8 @@ export class App extends Component {
                     <Redirect to="/" />
                 </Switch>
 
-                {/* <Route exact path="/" component={LoginForm} />
-                <Route exact path="/settings" component={SettingsForm} />    */}
+                <Route exact path="/" component={LoginForm} />
+                <Route exact path="/settings" component={SettingsForm} />   
             </div>
         );
     }
