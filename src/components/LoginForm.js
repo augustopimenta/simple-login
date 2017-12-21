@@ -13,7 +13,7 @@ import Button from './Button';
 
 import './LoginForm.scss';
 
-class LoginForm extends Component {
+export class LoginForm extends Component {
     
     authenticate = e => {
         e.preventDefault();
@@ -32,7 +32,6 @@ class LoginForm extends Component {
         requestLogin(settings.url, settings.params, e.target.id.value)
             .then(response => {
                 getActiveTab(tab => {
-                    console.log(tab, response);
                     changeTabUrl(tab.id, response.request.responseURL);
                     dispatch(loading.hide());
                     dispatch(alert.clearMessage());
@@ -66,4 +65,4 @@ const mapStateToProps = state => ({
     settings: state.settings
 });
 
-export default withRouter(connect(mapStateToProps, null, null, {withRef: true})(LoginForm));
+export default withRouter(connect(mapStateToProps)(LoginForm));

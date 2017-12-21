@@ -13,15 +13,9 @@ import Button from './Button';
 
 import './SettingsForm.scss';
 
-class SettingsForm extends Component {
+export class SettingsForm extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            errors: { url: null, params: null }
-        };
-    }
+    state = { errors: { url: null, params: null }};
 
     setError = error => {
         this.setState(prevState => {
@@ -147,4 +141,4 @@ const mapStateToProps = state => ({
     settings: state.settings
 });
 
-export default withRouter(connect(mapStateToProps, null, null, {withRef: true})(SettingsForm));
+export default withRouter(connect(mapStateToProps)(SettingsForm));

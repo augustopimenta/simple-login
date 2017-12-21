@@ -17,7 +17,7 @@ import * as settings from '../actions/settings';
 
 import './App.scss';
 
-class App extends Component {
+export class App extends Component {
 
     goToMain = e => {
         this.props.history.replace('/');
@@ -28,7 +28,7 @@ class App extends Component {
     };
 
     render() {
-        const { loading, alert, settings } = this.props;
+        const { alert } = this.props;
 
         return (
             <div className="App">
@@ -61,17 +61,15 @@ class App extends Component {
                     <Redirect to="/" />
                 </Switch>
 
-                <Route exact path="/" component={LoginForm} />
-                <Route exact path="/settings" render={SettingsForm} />   
+                {/* <Route exact path="/" component={LoginForm} />
+                <Route exact path="/settings" component={SettingsForm} />    */}
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    loading: state.loading.enable,
     alert: state.alert,
-    settings: state.settings
 });
 
-export default withRouter(connect(mapStateToProps, null, null, {withRef: true})(App));
+export default withRouter(connect(mapStateToProps)(App));
