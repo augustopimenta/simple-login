@@ -5,5 +5,4 @@ Extensão para o Chrome para auxiliar no login de aplicações (Utilização int
 <hr />
 
 ![Principal](https://raw.githubusercontent.com/augustopimenta/simple-login/master/examples/main.png)
-
 ![Configurações](https://raw.githubusercontent.com/augustopimenta/simple-login/master/examples/settings.png)
