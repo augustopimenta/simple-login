@@ -50,14 +50,16 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
+      "src/**/*.{js,jsx}",
+      "!src/tests/*"
     ],
     "setupFiles": [
       "<rootDir>/config/jest/enzyme.js"
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.js?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
+      "<rootDir>/src/**/?(*.)(spec|test).js?(x)",
+      "<rootDir>/src/tests/integration/*.js?(x)"
     ],
     "testEnvironment": "node",
     "testURL": "http://localhost",

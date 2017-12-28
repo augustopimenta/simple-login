@@ -29,7 +29,7 @@ export class LoginForm extends Component {
         dispatch(loading.show());
         dispatch(alert.setMessage(alert.TYPE_INFO, 'Autenticando...'));
 
-        requestLogin(settings.url, settings.params, e.target.id.value)
+        requestLogin(settings.url, settings.params, e.target.elements.id.value)
             .then(response => {
                 getActiveTab(tab => {
                     changeTabUrl(tab.id, response.request.responseURL);
@@ -53,7 +53,7 @@ export class LoginForm extends Component {
 
         return (
             <form className="LoginForm" onSubmit={e => this.authenticate(e)}>
-                <input className="LoginForm__input" placeholder="Número" type="text" name="id" autoFocus={true} disabled={enabled} />
+                <input className="LoginForm__input" placeholder="Número" type="text" id="id" name="id" autoFocus={true} disabled={enabled} />
                 <Button type="submit" loading={enabled} disabled={enabled}>Logar</Button>
             </form>
         );
