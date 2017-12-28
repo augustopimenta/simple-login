@@ -1,3 +1,5 @@
+@import "../variables";
+
 .LoginForm {
     display: flex;
     flex-direction: column;
@@ -5,14 +7,15 @@
     &__input {
         margin-bottom: 15px;
         padding: 10px;
-        border: 1px solid #888;
-        border-bottom: 2px solid #888;
+        border: 1px solid $input-border-color;
+        border-bottom: 2px solid $input-border-color;
         text-align: center;
+        color: $input-color;
     }
 
     &__input:focus {
         outline: none;
-        border-color: #E87E04;
+        border-color: $primary-color;
         border-bottom-width: 3px;
         margin-bottom: 14px;
     }

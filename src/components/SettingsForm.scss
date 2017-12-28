@@ -1,3 +1,5 @@
+@import "../variables";
+
 .SettingsForm {
     width: 500px;
 
@@ -8,15 +10,16 @@
 
     &__input {
         padding: 10px;
-        border: 1px solid #888;
-        border-bottom: 2px solid #888;
+        border: 1px solid $input-border-color;
+        border-bottom: 2px solid $input-border-color;
         width: 100%;
         resize: vertical;
+        color: $input-color;
     }
 
     &__input:focus {
         outline: none;
-        border-color: #E87E04;
+        border-color: $primary-color;
     }
 
     &__buttons {
@@ -26,7 +29,7 @@
     }
 
     &__error {
-        color: rgb(233, 38, 38);
+        color: $danger-color;
         display: block;     
     }
 
