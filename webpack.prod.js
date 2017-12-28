@@ -77,7 +77,9 @@ module.exports = merge(common, {
             }
         }),
         new CleanWebpackPlugin(['build']),
-        new ExtractTextPlugin('css/styles.css'),
+        new ExtractTextPlugin({
+            filename: 'css/style.[contenthash:8].css'
+        }),
         new HtmlWebpackPlugin({
             inject: true,
             template: './index.html',
