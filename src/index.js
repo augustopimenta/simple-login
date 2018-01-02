@@ -13,6 +13,10 @@ import { getData } from './services/persist';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 
+import './icons/icon32.png';
+import './icons/icon48.png';
+import './icons/icon128.png';
+
 import './index.scss';
 
 const store = createStore(reducers, getData(), applyMiddleware(thunk, logger));
