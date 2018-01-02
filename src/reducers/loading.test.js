@@ -6,13 +6,13 @@ describe('Loading reducer', () => {
     it('handle LOADING_SHOW', () => {
         const state = reducer(undefined, loading.show());
 
-        expect(state).toEqual({ enable: true });
+        expect(state).toEqual({ enabled: true });
     });
 
     it('handle LOADING_HIDE', () => {
-        const state = reducer({ enable: true }, loading.hide());
+        const state = reducer({ enabled: true }, loading.hide());
 
-        expect(state).toEqual({ enable: false });
+        expect(state).toEqual({ enabled: false });
     });
 
 });

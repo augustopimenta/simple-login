@@ -11,7 +11,7 @@ describe('<SettingsForm />', () => {
 
     const mountWrapperWith = (merge = {}) => {
         const props = {
-            loading: { enabled: false }, 
+            loading: false, 
             settings: { url: null, params: null },
             dispatch: jest.fn(),
             ...merge
@@ -29,7 +29,7 @@ describe('<SettingsForm />', () => {
     });
     
     it('can be disabled when is loading', () => {
-        wrapper.setProps({ loading: { enabled: false }});
+        wrapper.setProps({ loading: false });
 
         expect(wrapper.find('.SettingsForm__input[disabled]').length).toBe(2);
     });

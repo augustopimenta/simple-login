@@ -10,7 +10,7 @@ describe('<LoginForm />', () => {
 
     beforeEach(() => {
         const props = {
-            loading: { enabled: false }, 
+            loading: false, 
             settings: { url: null, params: null },
             dispatch: jest.fn()
         };
@@ -23,7 +23,7 @@ describe('<LoginForm />', () => {
     });
     
     it('can be disabled when is loading', () => {
-        wrapper.setProps({ loading: { enabled: true} });
+        wrapper.setProps({ loading: true });
 
         expect(wrapper.find('.LoginForm__input[disabled]').exists()).toBe(true);
     });

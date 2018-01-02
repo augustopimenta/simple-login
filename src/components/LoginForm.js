@@ -49,19 +49,19 @@ export class LoginForm extends Component {
     }
 
     render() {
-        const { enabled } = this.props.loading;
+        const { loading } = this.props;
 
         return (
             <form className="LoginForm" onSubmit={e => this.authenticate(e)}>
-                <input className="LoginForm__input" placeholder="Número" type="text" id="id" name="id" autoFocus={true} disabled={enabled} />
-                <Button type="submit" loading={enabled} disabled={enabled}>Logar</Button>
+                <input className="LoginForm__input" placeholder="Número" type="text" id="id" name="id" autoFocus={true} disabled={loading} />
+                <Button type="submit" loading={loading} disabled={loading}>Logar</Button>
             </form>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    loading: state.loading,
+    loading: state.loading.enabled,
     settings: state.settings
 });
 

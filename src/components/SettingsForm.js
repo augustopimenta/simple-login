@@ -110,7 +110,7 @@ export class SettingsForm extends Component {
                     name="url" 
                     defaultValue={settings.url} 
                     autoFocus={true} 
-                    disabled={loading.enabled} 
+                    disabled={loading} 
                     />
                 {errors.url && <span className="SettingsForm__error">{errors.url}</span>}
         
@@ -122,13 +122,13 @@ export class SettingsForm extends Component {
                     rows="4" 
                     name="params" 
                     defaultValue={settings.params ? JSON.stringify(settings.params, null, 4) : ''} 
-                    disabled={loading.enabled} 
+                    disabled={loading} 
                     />
                 {errors.params && <span className="SettingsForm__error">{errors.params}</span>}
         
                 <div className="SettingsForm__buttons">
-                    <Button type="button" primary={false} disabled={loading.enabled} onClick={() => this.goToMain()}>Voltar</Button>
-                    <Button type="submit" loading={loading.enabled} disabled={loading.enabled}>Salvar</Button>            
+                    <Button type="button" primary={false} disabled={loading} onClick={() => this.goToMain()}>Voltar</Button>
+                    <Button type="submit" loading={loading} disabled={loading}>Salvar</Button>            
                 </div>
             </form>
         );
@@ -137,7 +137,7 @@ export class SettingsForm extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.loading,
+    loading: state.loading.enabled,
     settings: state.settings
 });
 
