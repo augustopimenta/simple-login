@@ -6,7 +6,7 @@ import App from '../../components/App.js';
 
 describe('Settings integration test', () => {
 
-    it('save valid settings', () => {
+    it('save valid settings', (done) => {
         const settings = { 
             url: 'http://httpbin.org', 
             params: { id: '#ID#' } 
@@ -18,7 +18,10 @@ describe('Settings integration test', () => {
         wrapper.find('#params').instance().value = JSON.stringify(settings.params);
         wrapper.find('.SettingsForm').simulate('submit');
 
-        expect(store.getState().settings).toEqual(settings);
+        setTimeout(() => {
+            expect(store.getState().settings).toEqual(settings);
+            done();            
+        }, 2000);
     });
 
     it('starts with saved settings', () => {

@@ -8,7 +8,7 @@ import { createStore, applyMiddleware } from 'redux';
 
 import App from './components/App';
 import reducers from './reducers';
-import { getData } from './services/persist';
+import { updateDataStructure, getData } from './services/persist';
 
 import 'core-js/es6/map';
 import 'core-js/es6/set';
@@ -19,13 +19,17 @@ import './icons/icon128.png';
 
 import './index.scss';
 
-const store = createStore(reducers, getData(), applyMiddleware(thunk, logger));
+updateDataStructure().then(() => {
+    getData().then(data => {
+        const store = createStore(reducers, data, applyMiddleware(thunk, logger));
 
-ReactDOM.render(
-    <Provider store={store}>
-    	<Router>
-        	<App />
-    	</Router>
-    </Provider>,
-    document.getElementById('root')
-);
+        ReactDOM.render(
+            <Provider store={store}>
+                <Router>
+                    <App />
+                </Router>
+            </Provider>,
+            document.getElementById('root')
+        );
+    });
+});

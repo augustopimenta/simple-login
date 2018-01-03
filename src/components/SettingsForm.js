@@ -78,13 +78,15 @@ export class SettingsForm extends Component {
         const paramsValid = this.validateParams(elements.params.value);
 
         if (urlValid && paramsValid) {
-            this.goToMain();            
-            dispatch(loading.hide());
             const data = { url: elements.url.value, params: JSON.parse(elements.params.value) };
-            dispatch(settings.setData(data));
-            dispatch(alert.setDelayedMessage(alert.DELAY_FAST, alert.TYPE_SUCCESS, 'Configurações salvas!')); 
             
-            saveData({ settings: data });
+            saveData({ settings: data }).then(() => {
+                this.goToMain();            
+
+                dispatch(settings.setData(data));                            
+                dispatch(loading.hide());            
+                dispatch(alert.setDelayedMessage(alert.DELAY_FAST, alert.TYPE_SUCCESS, 'Configurações salvas!')); 
+            });
         } else {
             dispatch(loading.hide());            
             dispatch(alert.setDelayedMessage(alert.DELAY_MEDIUM, alert.TYPE_ERROR, 'Corrija os erros abaixo antes de continuar'));                                        
@@ -105,7 +107,7 @@ export class SettingsForm extends Component {
                 <input 
                     id="url" 
                     className="SettingsForm__input" 
-                    placeholder="http://meusite.com/login" 
+                    placeholder="Exemplo: http://meusite.com/login" 
                     type="text" 
                     name="url" 
                     defaultValue={settings.url} 
@@ -118,8 +120,8 @@ export class SettingsForm extends Component {
                 <textarea 
                     id="params" 
                     className="SettingsForm__input" 
-                    placeholder={'{\n  id: "#ID#",\n  tipo: 1\n}'} 
-                    rows="4" 
+                    placeholder={'Exemplo:\n\n{\n  "id": "#ID#",\n  "tipo": 1\n}'} 
+                    rows="8" 
                     name="params" 
                     defaultValue={settings.params ? JSON.stringify(settings.params, null, 4) : ''} 
                     disabled={loading} 

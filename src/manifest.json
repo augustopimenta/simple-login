@@ -1,7 +1,7 @@
 {
   "name": "Simple Login",
   "description": "Faça login rapidamente",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 2,
   "browser_action": {
     "default_title": "Simple Login",
@@ -19,7 +19,8 @@
   ],
   "permissions": [
     "activeTab",
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "incognito": "split",
   "icons": { 

@@ -63,7 +63,7 @@ describe('<SettingsForm />', () => {
         expect(paramsTextarea.value).toBe(JSON.stringify(params, null, 4));
     });
 
-    it('stores new settings', () => {
+    it('stores new settings', (done) => {
         wrapper = mountWrapperWith({ settings: { 
             url: 'http://test.com/login', 
             params: {id: '#ID#', role: 2} 
@@ -76,8 +76,11 @@ describe('<SettingsForm />', () => {
            
         wrapper.simulate('submit');
 
-        expect(storeSettingsSpy.calledOnce).toBe(true);
-        expect(goToMainStub.calledOnce).toBe(true);
+        setTimeout(() => {
+            expect(storeSettingsSpy.calledOnce).toBe(true);
+            expect(goToMainStub.calledOnce).toBe(true);
+            done();
+        }, 2000);       
     });
 
 });
