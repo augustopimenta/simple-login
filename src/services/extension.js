@@ -19,6 +19,12 @@ export const changeTabUrl = (id, url) => {
     });
 };
 
+export const createTab = url => {
+    forExtension(chrome => {
+       chrome.tabs.create({ url });
+    });
+};
+
 export const closeExtension = () => {
     forExtension(() => {
         window.close();

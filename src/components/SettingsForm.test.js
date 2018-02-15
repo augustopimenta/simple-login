@@ -80,7 +80,7 @@ describe('<SettingsForm />', () => {
             expect(storeSettingsSpy.calledOnce).toBe(true);
             expect(goToMainStub.calledOnce).toBe(true);
             done();
-        }, 2000);       
+        }, 2000);
     });
 
 });

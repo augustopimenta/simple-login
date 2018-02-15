@@ -23,7 +23,7 @@ describe('Login integration test', () => {
         };
         const id = '12345678';        
 
-        const { wrapper, store } = completeMount(App).state({ settings }).make();
+        const { wrapper }  = completeMount(App).state({ settings }).make();
         
         const requestLoginStub = sinon.stub(request, 'requestLogin')
             .returns(new Promise(resolve => {

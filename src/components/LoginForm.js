@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-import { getActiveTab, changeTabUrl, closeExtension } from '../services/extension';
+import { getActiveTab, createTab, changeTabUrl, closeExtension } from '../services/extension';
 import { requestLogin } from '../services/request';
 
 import * as loading from '../actions/loading';
@@ -14,11 +13,47 @@ import Button from './Button';
 import './LoginForm.scss';
 
 export class LoginForm extends Component {
-    
+
+    constructor(props) {
+        super(props);
+
+        this.state = { ctrlPressed: false };
+    }
+
+    componentDidMount() {
+        window.document.addEventListener('keydown', this.ctrlKeyDown, false);
+        window.document.addEventListener('keyup', this.ctrlKeyUp, false);
+    }
+
+    componentWillUnmount() {
+        window.document.removeEventListener('keydown', this.ctrlKeyDown);
+        window.document.removeEventListener('keyup', this.ctrlKeyUp);
+    }
+
+    ctrlKeyDown = e => {
+        if (e.which === 17) {
+            this.setState({ ctrlPressed: true });
+        }
+    };
+
+    ctrlKeyUp = e => {
+        if (e.which === 17) {
+            this.setState({ ctrlPressed: false });
+        }
+    };
+
+    inputKeyDown = e =>  {
+        if (e.which === 13 && e.ctrlKey) {
+            this.form.dispatchEvent(new Event('submit'));
+        }
+    };
+
     authenticate = e => {
         e.preventDefault();
 
         const { dispatch, settings } = this.props;
+
+        const ctrlPressed = this.state.ctrlPressed;
 
         if (!settings.url) {
             dispatch(alert.setDelayedMessage(alert.DELAY_MEDIUM, alert.TYPE_ERROR, 'Nenhuma configuração foi encontrada'));
@@ -32,7 +67,12 @@ export class LoginForm extends Component {
         requestLogin(settings.url, settings.params, e.target.elements.id.value)
             .then(response => {
                 getActiveTab(tab => {
-                    changeTabUrl(tab.id, response.request.responseURL);
+                    if (ctrlPressed) {
+                        createTab(response.request.responseURL);
+                    } else {
+                        changeTabUrl(tab.id, response.request.responseURL);
+                    }
+
                     dispatch(loading.hide());
                     dispatch(alert.clearMessage());
                     closeExtension();
@@ -42,19 +82,21 @@ export class LoginForm extends Component {
                 dispatch(loading.hide());
                 dispatch(alert.setDelayedMessage(alert.DELAY_FAST, alert.TYPE_ERROR, 'Ocorreu um erro'));
             });
-    }
+    };
 
     goToSettings = () => {
         this.props.history.replace('/settings');
-    }
+    };
 
     render() {
         const { loading } = this.props;
 
         return (
-            <form className="LoginForm" onSubmit={e => this.authenticate(e)}>
-                <input className="LoginForm__input" placeholder="Número" type="text" id="id" name="id" autoFocus={true} disabled={loading} />
-                <Button type="submit" loading={loading} disabled={loading}>Logar</Button>
+            <form ref={ref => this.form = ref} className="LoginForm" onSubmit={e => this.authenticate(e)}>
+                <input onKeyDown={this.inputKeyDown} className="LoginForm__input" placeholder="Número" type="text" id="id" name="id" autoFocus={true} disabled={loading} />
+                <Button type="submit" loading={loading} disabled={loading}>
+                    Logar {this.state.ctrlPressed && <small>(Nova aba)</small>}
+                </Button>
             </form>
         );
     }

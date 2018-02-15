@@ -1,6 +1,5 @@
 import React from 'react';
 import sinon from 'sinon';
-import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 
 import * as request from '../services/request';
 import { LoginForm } from './LoginForm';
@@ -56,4 +55,4 @@ describe('<LoginForm />', () => {
         expect(authenticateSpy.calledOnce).toBe(true);
         expect(requestLoginStub.calledOnce).toBe(true);
     });
-})
+});

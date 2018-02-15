@@ -8,13 +8,6 @@ import LoginForm from './LoginForm';
 import SettingsForm from './SettingsForm';
 import IconButton from './IconButton';
 
-import { getActiveTab, changeTabUrl, closeExtension } from '../services/extension';
-import { requestLogin } from '../services/request';
-
-import * as loading from '../actions/loading';
-import * as alert from '../actions/alert';
-import * as settings from '../actions/settings';
-
 import './App.scss';
 
 export class App extends Component {

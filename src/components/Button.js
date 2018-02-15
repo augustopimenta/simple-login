@@ -7,7 +7,7 @@ import './Button.scss';
 const Button = ({type, children, loading, primary, disabled, onClick}) => (
     <button onClick={onClick} className={classNames('Button', { 'Button--primary': primary })} type={type} disabled={disabled}>
         {loading && <img className="Button__spinner" src={ require('../assets/spinner.svg') } alt="spinner" />}
-        <span>{children}</span>
+        <span>{loading || children}</span>
     </button>
 );
 
